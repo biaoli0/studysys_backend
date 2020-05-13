@@ -1,0 +1,26 @@
+{
+  "name": "studysys_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarsPenguine/studysys_backend.git"
+  },
+  "author": "Biao Li",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MarsPenguine/studysys_backend/issues"
+  },
+  "homepage": "https://github.com/MarsPenguine/studysys_backend#readme",
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^8.0.8",
+    "koa-session": "^6.0.0"
+  }
+}
