@@ -2,7 +2,7 @@
   "name": "studysys_backend",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/MarsPenguine/studysys_backend#readme",
   "dependencies": {
+    "@koa/cors": "^2.2.3",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.3.0",
