@@ -28,62 +28,70 @@ const CONFIG = {
 };
 app.use(session(CONFIG, app));
 
-// Fake user
-const user = {
-    name: 'marspenguine',
-    id: 'Marspenguine',
-    password: '123123',
-}
-
 const privateKey = 'my_token';
 
 // Check Token
 app.use(async (ctx, next) => {
     const token = ctx.headers.token;
+    console.log(token);
     jwt.verify(token, privateKey, (err, decoded) => {
         // Token expired or undefined
         if (err) {
             // No user id and password
             if (ctx.headers.user_id === undefined && ctx.headers.password === undefined) {
                 ctx.status = 555;
-                ctx.session.message = "Token expired";
-                return;
+                return ctx.response.set({
+                    'Token': token,
+                    'Message': "Token expired"
+                });
             }
         }
     })
     await next();
 })
 
-// Vertify user and generate a token in session
-app.use(async (ctx, next) => {
+// POST request
+router.post('/token', async (ctx, next) => {
+
+    // Fake user
+    const user = {
+        name: 'marspenguine',
+        id: 'Marspenguine',
+        password: '123123',
+    }
+
+    // Define message and token variable
+    let message = undefined;
+    let token = undefined;
+
+    // Vertify user and generate a token in session
     if (ctx.headers.token === undefined) {
         const userId = ctx.headers.user_id;
         const password = ctx.headers.password;
         if (userId === user.id && password === user.password) {
-            const token = jwt.sign({
+            token = jwt.sign({
                 name: user.name,
                 id: userId,
             }, privateKey, {
                 expiresIn: '1h',
             });
-            ctx.session.token = token;
+            message = "Login successfully";
             ctx.status = 200;
-            ctx.session.message = "登录成功";
         } else {
             ctx.status = 555;
-            ctx.session.message = "用户密码错误";
-            return;
+            message = "Invalid user id or password";
         }
     }
-    await next();
-})
 
-// POST request
-router.post('/', async (ctx, next) => {
+    ctx.response.set({
+        'Token': token,
+        'Message': message
+    });
+
     ctx.body = {
-        token: ctx.session.token,
-        message: ctx.session.message,
-    };
+        'Token': token,
+        'Message': message
+    }
     await next();
 })
 
